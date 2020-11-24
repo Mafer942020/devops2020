@@ -1,0 +1,4 @@
+FROM devopsedu/webapp
+ADD https://github.com/Mafer942020/devops2020 /var/www/html
+RUN rm /var/www/html/index.html
+CMD apachectl -D FOREGROUND
