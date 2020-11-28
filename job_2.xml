@@ -1,0 +1,25 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.40">
+  <description>To sign certificate</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.86">
+    <script>pipeline {
+    agent {label &apos;test&apos;}
+
+    stages {
+        stage(&apos;build&apos;) {
+            steps {
+                sh &apos;/opt/puppetlabs/bin/puppetserver ca list&apos;
+                sh &apos;/opt/puppetlabs/bin/puppetserver ca sign –all&apos;
+               
+            }
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
