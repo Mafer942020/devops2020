@@ -1,0 +1,45 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.40">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.86">
+    <script>pipeline {
+    agent {label &apos;test&apos;}
+
+    stages {
+        stage(&apos;pull git&apos;) {
+            steps {
+                sh &apos;git init&apos;
+                sh &apos;git pull https://github.com/Mafer942020/devops2020 /home/edureka&apos;
+            }
+        }
+        stage(&apos;run docker file&apos;) {
+            steps {
+                script {
+                    try{
+                        sh &apos;cd /home/edureka/devops2020&apos;
+                        sh &apos;sudo docker build -t Dockerfile&apos;
+                        sh &apos;sudo docker run -itd -p 80:84 --name DevopseduWebapp devopsedu/webapp&apos;
+                    }
+                    catch(Exception e){
+                        sh &quot;docker rm -f  DevopseduWebapp&quot;
+                    }
+                }
+            }
+        }
+        stage(&apos;ejecutar selenium&apos;) {
+            steps {
+                sh &apos;cd /home/edureka/devops2020&apos;
+                sh &apos;java -jar seleniumTest.jar&apos;
+            }
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
